@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MyRuns</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="male_gender">Male</string>
+    <string name="female_gender">Female</string>
+    <string name="class_year">Class</string>
+    <string name="major">Major</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_picture">Change</string>
+</resources>
