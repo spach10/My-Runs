@@ -1,22 +1,22 @@
 package com.example.i21633.myruns
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.preference.PreferenceFragmentCompat
 
 /**
  * Created by i21633 on 9/26/17.
  */
 
-class Tab3SettingsFragment : Fragment() {
+class Tab3SettingsFragment : PreferenceFragmentCompat() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val rootView = inflater!!.inflate(R.layout.fragment_tab3settings, container, false)
-        return rootView
-
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        addPreferencesFromResource(R.xml.preferences)
     }
+
+//    private fun setPreferenceClickListeners() {
+//        val profilePreference = findPreference("profile")
+//
+//    }
 
 }
