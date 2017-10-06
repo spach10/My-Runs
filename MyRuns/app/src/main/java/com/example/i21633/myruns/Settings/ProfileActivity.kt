@@ -1,7 +1,6 @@
-package com.example.i21633.myruns
+package com.example.i21633.myruns.Settings
 
 import android.app.Activity
-import android.app.Fragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -17,6 +16,7 @@ import android.util.Base64
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.Toast
+import com.example.i21633.myruns.R
 import java.io.*
 
 class ProfileActivity : AppCompatActivity() {

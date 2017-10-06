@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".ManualEntryActivity"></activity>
+        <activity android:name=".Settings.ProfileActivity" />
+        <activity android:name=".Start.ManualEntryActivity"></activity>
     </application>
 
 </manifest>

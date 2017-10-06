@@ -1,10 +1,11 @@
-package com.example.i21633.myruns
+package com.example.i21633.myruns.History
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.i21633.myruns.R
 
 /**
  * Created by i21633 on 9/26/17.
