@@ -31,7 +31,8 @@ class ManualEntryActivity : AppCompatActivity() {
                     dateFrag.show(supportFragmentManager, "datePicker")
                 }
                 1 -> {
-
+                    val timeFrag = TimePickerFragment()
+                    timeFrag.show(supportFragmentManager, "timePicker")
                 }
             }
 
