@@ -1,5 +1,7 @@
 package com.example.i21633.myruns
 
+import android.app.Application
+import android.arch.persistence.room.Room
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -10,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.view.MenuItem
+import com.example.i21633.myruns.Database.AppDatabase
 import com.example.i21633.myruns.History.Tab2HistoryFragment
 import com.example.i21633.myruns.Settings.Tab3SettingsFragment
 import com.example.i21633.myruns.Start.Tab1StartFragment
@@ -35,32 +38,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container) as ViewPager
+        mViewPager = findViewById<ViewPager>(R.id.container)
         mViewPager!!.adapter = mSectionsPagerAdapter
 
-        val tabLayout = findViewById(R.id.tabs) as TabLayout
+        val tabLayout = findViewById<TabLayout>(R.id.tabs)
         tabLayout.setupWithViewPager(mViewPager)
-
-//        val fab = findViewById(R.id.fab) as FloatingActionButton
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
     }
-
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -74,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         } else super.onOptionsItemSelected(item)
 
     }
-
-    // Deleted PlaceholderFragment Class from here
 
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to

@@ -1,18 +1,32 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.i21633.myruns"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // used by Room, to test migrations
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
+    // used by Room, to test migrations
+    sourceSets {
+        androidTest.assets.srcDirs +=
+                files("$projectDir/schemas".toString())
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -31,9 +45,20 @@ dependencies {
     compile 'com.android.support:preference-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.debop:koda-time:1.2.0'
     compile 'com.android.support:support-v4:26.+'
+    implementation 'com.google.android.gms:play-services-maps:11.4.2'
+
     testCompile 'junit:junit:4.12'
+
+    compile 'android.arch.lifecycle:extensions:1.0.0'
+    compile 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.lifecycle:compiler:1.0.0'
+    kapt 'android.arch.persistence.room:compiler:1.0.0'
+    //compile "com.github.debop:koda-time:1.2.0-SNAPSHOT"
 }
 repositories {
     mavenCentral()
+    jcenter()
+    maven { url 'https://maven.google.com' }
 }
