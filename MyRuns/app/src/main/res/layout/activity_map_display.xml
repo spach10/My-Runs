@@ -27,39 +27,44 @@
         android:id="@+id/calorieBurned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
-        tools:layout_editor_absoluteY="88dp" />
+        app:layout_constraintTop_toBottomOf="@+id/climb" />
 
     <TextView
         android:id="@+id/climb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
-        tools:layout_editor_absoluteY="69dp" />
+        app:layout_constraintTop_toBottomOf="@+id/curSpeed" />
 
     <TextView
         android:id="@+id/curSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
-        tools:layout_editor_absoluteY="50dp" />
+        app:layout_constraintTop_toBottomOf="@+id/avgSpeed" />
 
     <TextView
         android:id="@+id/avgSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
-        tools:layout_editor_absoluteY="31dp" />
+        app:layout_constraintTop_toBottomOf="@+id/activityType" />
 
     <TextView
         android:id="@+id/activityType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,8 +73,25 @@
         android:id="@+id/distanceTraveled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/map"
-        tools:layout_editor_absoluteY="107dp" />
+        app:layout_constraintTop_toBottomOf="@+id/calorieBurned" />
+
+    <Button
+        android:id="@+id/cancelGpsEntryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintStart_toStartOf="@+id/map" />
+
+    <Button
+        android:id="@+id/saveGpsEntryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="@+id/map" />
 
 </android.support.constraint.ConstraintLayout>

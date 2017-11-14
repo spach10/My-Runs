@@ -18,8 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.joda.time.DateTime
-import java.time.LocalDateTime
-import java.util.*
 
 
 class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -27,7 +25,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var time : DateTime
-    private lateinit var currentLocation : Location
+    private lateinit var startLocation : Location
+    private lateinit var previousLocation : Location
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +61,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         val provider = locationManager.getBestProvider(criteria, false)
         val location = locationManager.getLastKnownLocation(provider)
         val userLocation = LatLng(location.latitude, location.longitude)
-        currentLocation = location
+        startLocation = location
+        previousLocation = location
         //Current location
         mMap.addMarker(MarkerOptions().position(userLocation).title("My location"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation))
@@ -71,8 +71,10 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location?) {
-            var timeDif = time .. DateTime.now()
-            //var locationDif = location.
+            val timeDif = time .. DateTime.now()
+            val locationDif = location!!.distanceTo(previousLocation)
+            previousLocation = location
+            //var avgSpeed : Int = timeDif / locationDif
         }
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
         override fun onProviderEnabled(p0: String?) {}
