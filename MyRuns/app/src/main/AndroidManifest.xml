@@ -29,7 +29,8 @@
         </activity>
         <activity android:name=".Settings.ProfileActivity" />
         <activity android:name=".Start.ManualEntryActivity" />
-        <activity android:name=".Start.MapDisplayActivity"></activity>
+        <activity android:name=".Start.MapDisplayActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
