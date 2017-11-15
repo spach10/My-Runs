@@ -35,7 +35,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var startTime : LocalDateTime
     private lateinit var previousTime : LocalDateTime
     private lateinit var startLocation : Location
-    private  lateinit var previousLocation : Location
+    private lateinit var previousLocation : Location
+    private var isRunStarted : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,20 +68,49 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Get current location
         val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val criteria = Criteria()
-        val provider = locationManager.getBestProvider(criteria, false)
-        val location = locationManager.getLastKnownLocation(provider)
 
-        startLocation = location
-        previousLocation = startLocation
-
-        val userLocation = LatLng(location.latitude, location.longitude)
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0.toFloat(), locationListener)
 
-        //Current location
-        mMap.addMarker(MarkerOptions().position(userLocation).title("Starting Location"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation))
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
+    }
+
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location?) {
+            if (!isRunStarted) {
+                mMap.addMarker(MarkerOptions().position(LatLng(location!!.latitude, location!!.longitude)))
+                startLocation = location
+                previousLocation = location
+                isRunStarted = true
+            } else {
+
+                // Calculate the Avg Speed and display
+                displayAvgSpeed.text = calculateAverageSpeed(location)
+
+                // Calculate Current Speed and display
+                displayCurSpeed.text = calculateCurrentSpeed(location)
+
+                // Calculate the Climb and display
+                displayClimb.text = calculateClimb(location)
+
+                // Calculate Calorie and display
+                displayCaloriesBurned.text = calculateTotalCaloriesBurned()
+
+                // Calculate total distance
+                displayTotalDistance.text = calculateTotalDistance(location)
+
+                // Draw new line over traveled space
+                var locationList = arrayListOf(previousLocation, location!!)
+                drawPrimaryLinePath(locationList)
+
+                // Update the previousTime and previousLocation
+                previousLocation = location
+                previousTime = LocalDateTime.now()
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location!!.latitude, location!!.longitude)))
+        }
+        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
+        override fun onProviderEnabled(p0: String?) {}
+        override fun onProviderDisabled(p0: String?) {}
     }
 
     private fun setClickListeners() {
@@ -97,35 +127,6 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun cancelExerciseEntry(v: View?) {
         var intent = Intent(application, MainActivity::class.java)
         startActivity(intent)
-    }
-
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location?) {
-            // Calculate the Avg Speed and display
-            displayAvgSpeed.text = calculateAverageSpeed(location)
-
-            // Calculate Current Speed and display
-            displayCurSpeed.text = calculateCurrentSpeed(location)
-
-            // Calculate the Climb and display
-            displayClimb.text = calculateClimb(location)
-
-            // Calculate Calorie and display
-            displayCaloriesBurned.text = calculateTotalCaloriesBurned()
-
-            // Calculate total distance
-            displayTotalDistance.text = calculateTotalDistance(location)
-
-            // Draw new line over traveled space
-            var locationList = arrayListOf(previousLocation, location!!)
-            drawPrimaryLinePath(locationList)
-
-            previousLocation = location
-            previousTime = LocalDateTime.now()
-        }
-        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
-        override fun onProviderEnabled(p0: String?) {}
-        override fun onProviderDisabled(p0: String?) {}
     }
 
     private fun drawPrimaryLinePath(listLocationChangeToDraw : ArrayList<Location> ) {
