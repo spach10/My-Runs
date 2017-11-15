@@ -63,12 +63,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         mMap.isMyLocationEnabled = checkLocationPermission()
 
-        startTime = LocalDateTime.now()
-        previousTime = startTime
-
-        // Get current location
+        // Set up the location manager and location updates
         val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0.toFloat(), locationListener)
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
@@ -80,9 +76,10 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 mMap.addMarker(MarkerOptions().position(LatLng(location!!.latitude, location!!.longitude)))
                 startLocation = location
                 previousLocation = location
+                startTime = LocalDateTime.now()
+                previousTime = startTime
                 isRunStarted = true
             } else {
-
                 // Calculate the Avg Speed and display
                 displayAvgSpeed.text = calculateAverageSpeed(location)
 
