@@ -24,38 +24,38 @@
         tools:context="com.example.i21633.myruns.Start.MapDisplayActivity" />
 
     <TextView
-        android:id="@+id/calorieBurned"
+        android:id="@+id/displayCaloriesBurned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Calories:"
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/climb" />
+        app:layout_constraintTop_toBottomOf="@+id/displayClimb" />
 
     <TextView
-        android:id="@+id/climb"
+        android:id="@+id/displayClimb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Climb:"
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/curSpeed" />
+        app:layout_constraintTop_toBottomOf="@+id/displayCurSpeed" />
 
     <TextView
-        android:id="@+id/curSpeed"
+        android:id="@+id/displayCurSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Current Speed: "
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/avgSpeed" />
+        app:layout_constraintTop_toBottomOf="@+id/displayAvgSpeed" />
 
     <TextView
-        android:id="@+id/avgSpeed"
+        android:id="@+id/displayAvgSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Avg Speed: "
         app:layout_constraintStart_toStartOf="@+id/map"
         app:layout_constraintTop_toBottomOf="@+id/activityType" />
 
@@ -65,18 +65,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Type: Unknown"
         app:layout_constraintStart_toStartOf="@+id/map"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/distanceTraveled"
+        android:id="@+id/displayTotalDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="TextView"
+        android:text="Distance:"
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/calorieBurned" />
+        app:layout_constraintTop_toBottomOf="@+id/displayCaloriesBurned" />
 
     <Button
         android:id="@+id/cancelGpsEntryButton"

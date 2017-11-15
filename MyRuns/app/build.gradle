@@ -45,7 +45,6 @@ dependencies {
     compile 'com.android.support:preference-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.debop:koda-time:1.2.0'
     compile 'com.android.support:support-v4:26.+'
     implementation 'com.google.android.gms:play-services-maps:11.4.2'
 
@@ -55,7 +54,6 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0'
     kapt 'android.arch.persistence.room:compiler:1.0.0'
-    //compile "com.github.debop:koda-time:1.2.0-SNAPSHOT"
 }
 repositories {
     mavenCentral()
