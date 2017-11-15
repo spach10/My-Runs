@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.android.synthetic.main.activity_map_display.*
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -73,11 +75,12 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         previousLocation = startLocation
 
         val userLocation = LatLng(location.latitude, location.longitude)
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1500, 0.toFloat(), locationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0.toFloat(), locationListener)
 
         //Current location
+        mMap.addMarker(MarkerOptions().position(userLocation).title("Starting Location"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation))
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
     }
 
     private fun setClickListeners() {
@@ -112,10 +115,39 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
             // Calculate total distance
             displayTotalDistance.text = calculateTotalDistance(location)
+
+            // Draw new line over traveled space
+            var locationList = arrayListOf(previousLocation, location!!)
+            drawPrimaryLinePath(locationList)
+
+            previousLocation = location
+            previousTime = LocalDateTime.now()
         }
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
         override fun onProviderEnabled(p0: String?) {}
         override fun onProviderDisabled(p0: String?) {}
+    }
+
+    private fun drawPrimaryLinePath(listLocationChangeToDraw : ArrayList<Location> ) {
+        if ( map == null )
+            return
+
+        if ( listLocationChangeToDraw.size < 2 )
+            return
+
+        var options = PolylineOptions()
+
+        options.color( Color.parseColor( "#ff0000" ) )
+        options.width( 5.toFloat() )
+        options.visible( true )
+
+        listLocationChangeToDraw.forEach {
+            locRecorded -> options.add(
+                LatLng(locRecorded.latitude, locRecorded.longitude)
+            )
+        }
+
+        mMap.addPolyline(options)
     }
 
     private fun checkLocationPermission(): Boolean {
@@ -153,17 +185,19 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         val timeDifInHours = getDifference(startTime, LocalDateTime.now())
         val locationDif = location!!.distanceTo(startLocation) / 1000
         val avgSpeed  = locationDif / timeDifInHours
-
-        return "Avg Speed: " + BigDecimal(avgSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/s"
+        if (avgSpeed != Double.NaN && avgSpeed != Double.POSITIVE_INFINITY && avgSpeed != Double.NEGATIVE_INFINITY)
+            return "Avg Speed: " + BigDecimal(avgSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/h"
+        return "Avg Speed: 0.00 km/h"
     }
 
     private fun calculateCurrentSpeed (location : Location?) : String {
         val timeDifInHours = getDifference(previousTime, LocalDateTime.now())
-        previousTime = LocalDateTime.now()  // Set the current time to previous time
-        val locationDif = location!!.distanceTo(startLocation) / 1000
+        val locationDif = location!!.distanceTo(previousLocation) / 1000
         val currentSpeed  = locationDif / timeDifInHours
 
-        return "Current Speed: " + BigDecimal(currentSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/s"
+        if (currentSpeed != Double.NaN && currentSpeed != Double.POSITIVE_INFINITY && currentSpeed != Double.NEGATIVE_INFINITY)
+            return "Current Speed: " + BigDecimal(currentSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/h"
+        return "Current Speed: 0.00 km/h"
     }
 
     private fun calculateClimb(location: Location?): String {
