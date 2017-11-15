@@ -30,6 +30,12 @@ import java.time.LocalDateTime
 
 class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    /** Global variables
+     * needed to setup the Map
+     * drop a pin at the beginning of workout
+     * calculate the avg speed
+     * calculate current speed
+     */
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var startTime : LocalDateTime
