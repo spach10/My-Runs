@@ -9,6 +9,7 @@ import com.example.i21633.myruns.Database.entity.ExerciseEntry
  */
 
 @Dao
+@TypeConverters
 interface ExerciseEntryDao {
 
     @Query("select * from exerciseEntries")
