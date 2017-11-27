@@ -30,26 +30,26 @@ class ManualEntryActivity : AppCompatActivity() {
 
     private fun insertExerciseEntry(v: View?) {
         //val application = application as? App
-        try {
-            App.db?.exerciseEntryDao()?.addExercise(
-                    ExerciseEntry(
-                            0,
-                            1,
-                            "Running",
-                            30,
-                            1.5,
-                            8.0,
-                            8.0,
-                            315,
-                            20.5,
-                            171,
-                            ""
-                    )
-            )
-            //Tab2HistoryFragment
-        } catch (e: Exception) {
-            val message = e.message
-        }
+//        try {
+//            App.db?.exerciseEntryDao()?.addExercise(
+//                    ExerciseEntry(
+//                            0,
+//                            1,
+//                            "Running",
+//                            30,
+//                            1.5,
+//                            8.0,
+//                            8.0,
+//                            315,
+//                            20.5,
+//                            171,
+//                            ""
+//                    )
+//            )
+//            //Tab2HistoryFragment
+//        } catch (e: Exception) {
+//            val message = e.message
+//        }
     }
 
     private fun cancelExerciseEntry(v: View?) {}

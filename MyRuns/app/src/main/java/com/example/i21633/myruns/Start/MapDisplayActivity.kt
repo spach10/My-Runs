@@ -42,6 +42,7 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var previousTime : LocalDateTime
     private lateinit var startLocation : Location
     private lateinit var previousLocation : Location
+    private var locationCoordinates : ArrayList<LatLng> = ArrayList()
     private var isRunStarted : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +72,7 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Set up the location manager and location updates
         val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500, 0.toFloat(), locationListener)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0.toFloat(), locationListener)
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
     }
@@ -109,6 +110,7 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 previousLocation = location
                 previousTime = LocalDateTime.now()
             }
+            locationCoordinates.add(LatLng(location.latitude, location.longitude))
             mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location!!.latitude, location!!.longitude)))
         }
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
@@ -122,6 +124,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveExerciseEntry(v: View?) {
+
+
 
         var intent = Intent(application, MainActivity::class.java)
         startActivity(intent)
@@ -205,9 +209,9 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun calculateClimb(location: Location?): String {
+        var elevationChange = Math.abs(startLocation.altitude - location!!.altitude) / 1000
 
-
-        return "Climb: 0.0 km"
+        return "Climb: $elevationChange km"
     }
 
     private fun calculateTotalCaloriesBurned(): String {
