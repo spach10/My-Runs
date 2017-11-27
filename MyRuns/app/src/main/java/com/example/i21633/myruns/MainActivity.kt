@@ -39,13 +39,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar as Toolbar)
+        setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container)
+        mViewPager = findViewById<ViewPager>(R.id.container)
         mViewPager!!.adapter = mSectionsPagerAdapter
 
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
