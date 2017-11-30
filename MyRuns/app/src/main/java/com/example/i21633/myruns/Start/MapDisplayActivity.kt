@@ -13,6 +13,9 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.example.i21633.myruns.App
+import com.example.i21633.myruns.Database.AppDatabase
+import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import com.example.i21633.myruns.MainActivity
 import com.example.i21633.myruns.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -75,6 +78,10 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0.toFloat(), locationListener)
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
+
+        val bundle = intent.extras
+        val activityTypeInt = bundle.getInt("ActivityType")
+        activityType.text = App.db?.activityTypeDao()?.getActivityType(activityTypeInt)
     }
 
     private val locationListener: LocationListener = object : LocationListener {
@@ -124,8 +131,9 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveExerciseEntry(v: View?) {
-
-
+        var array = resources.getStringArray(R.array.activityTypeArray)
+//        val exerciseEntry = ExerciseEntry()
+//        App.db?.exerciseEntryDao()?.addExercise()
 
         var intent = Intent(application, MainActivity::class.java)
         startActivity(intent)

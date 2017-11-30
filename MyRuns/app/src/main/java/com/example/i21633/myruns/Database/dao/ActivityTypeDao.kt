@@ -14,6 +14,9 @@ interface ActivityTypeDao {
     @Query("select * from activityTypes")
     fun getAllActivityTypes(): List<ActivityType>
 
+    @Query("select name from activityTypes where id = :id")
+    fun getActivityType(id : Int) : String
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addActivityType(activityType: ActivityType)
 

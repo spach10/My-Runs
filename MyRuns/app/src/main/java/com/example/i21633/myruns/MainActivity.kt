@@ -1,18 +1,14 @@
 package com.example.i21633.myruns
 
-import android.app.Application
-import android.arch.persistence.room.Room
+import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import com.example.i21633.myruns.Database.AppDatabase
 import com.example.i21633.myruns.History.Tab2HistoryFragment
 import com.example.i21633.myruns.Settings.Tab3SettingsFragment
 import com.example.i21633.myruns.Start.Tab1StartFragment

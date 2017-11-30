@@ -3,6 +3,7 @@ package com.example.i21633.myruns
 import android.app.Application
 import android.arch.persistence.room.Room
 import com.example.i21633.myruns.Database.AppDatabase
+import com.example.i21633.myruns.Database.entity.ActivityType
 import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import java.util.prefs.Preferences
 
@@ -18,6 +19,15 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        App.db =  Room.databaseBuilder(this, AppDatabase::class.java, "exerciseEntryDB").allowMainThreadQueries().build()
+        App.db =  Room.databaseBuilder(this, AppDatabase::class.java, "exerciseEntryDB")
+                .allowMainThreadQueries()
+                .build()
+        val activityTypes : Array<String> = resources.getStringArray(R.array.activityTypeArray)
+
+        activityTypes.forEach {
+            typeName -> App.db?.activityTypeDao()?.addActivityType(ActivityType(null, typeName))
+        }
+
+        var test = App.db?.activityTypeDao()?.getAllActivityTypes()
     }
 }

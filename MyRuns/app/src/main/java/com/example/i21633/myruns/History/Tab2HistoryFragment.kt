@@ -25,10 +25,9 @@ class Tab2HistoryFragment : Fragment() {
     private fun createListView() {
         val exerciseEntries = App.db?.exerciseEntryDao()?.getAllExerciseEntries()
         if (exerciseEntries!!.count() > 0) {
-            val test: String = exerciseEntries[0].mActivityType.toString()
-            val listItems = arrayOf(test)
-            val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
-            history_list_view.adapter = itemsAdapter
+//            val listItems = arrayOf()
+//            val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
+//            history_list_view.adapter = itemsAdapter
         }
     }
 

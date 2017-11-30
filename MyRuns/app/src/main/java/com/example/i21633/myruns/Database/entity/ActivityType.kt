@@ -10,7 +10,6 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "activityTypes")
 data class ActivityType (
-        @ColumnInfo(name = "id")
-        @PrimaryKey(autoGenerate = true) var id : Long = 0,
-        @ColumnInfo(name = "activityType") var inputType : String = ""
+        @PrimaryKey(autoGenerate = true) var id : Int? = null,
+        var name : String = ""
 )
