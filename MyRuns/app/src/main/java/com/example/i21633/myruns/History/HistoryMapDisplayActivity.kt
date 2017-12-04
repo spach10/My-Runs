@@ -3,54 +3,59 @@ package com.example.i21633.myruns.History
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
+import com.example.i21633.myruns.App
 import com.example.i21633.myruns.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.android.synthetic.main.activity_map_display.*
+import java.util.ArrayList
 
-/**
- * Created by i21633 on 12/4/17.
- */
 class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
+    private var locationPoints : ArrayList<LatLng> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map_display)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        setContentView(R.layout.activity_history_map_display)
+
         mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.isMyLocationEnabled = checkLocationPermission()
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
+        // Set up the location manager and location updates
+        this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-//        val bundle = intent.extras
-//        inputTypeId = bundle.getInt("InputTypeId")
-//        activityTypeId = bundle.getInt("ActivityTypeId")
-//        activityType.text = getActivityTypeFromPos(activityTypeId)
+        val bundle = intent.extras
+        val exerciseEntryId = bundle.getInt("exerciseEntryId")
+
+        val exerciseEntries = App.db?.exerciseEntryDao()?.getAllExerciseEntries()
+
+        val coordinates = App.db?.latLngCoordinatesDao()?.getAllLatLngPoints(exerciseEntryId)
+        coordinates!!.forEach {
+            coordinate -> locationPoints.add(LatLng(coordinate.lat, coordinate.lng))
+        }
+        drawPrimaryLinePath(locationPoints)
+
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
     }
 
     private fun checkLocationPermission(): Boolean {
@@ -59,4 +64,27 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
         return res == PackageManager.PERMISSION_GRANTED
     }
+
+    private fun drawPrimaryLinePath(listLocationChangeToDraw : ArrayList<LatLng>) {
+        if ( map == null )
+            return
+
+        if ( listLocationChangeToDraw.size < 2 )
+            return
+
+        var options = PolylineOptions()
+
+        options.color( Color.parseColor( "#ff0000" ) )
+        options.width( 5.toFloat() )
+        options.visible( true )
+
+        listLocationChangeToDraw.forEach {
+            locRecorded -> options.add(
+                LatLng(locRecorded.latitude, locRecorded.longitude)
+        )
+        }
+
+        mMap.addPolyline(options)
+    }
+
 }

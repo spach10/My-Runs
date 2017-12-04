@@ -3,6 +3,7 @@ package com.example.i21633.myruns.Database.entity
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import com.google.android.gms.maps.model.LatLng
 import java.sql.Date
 import java.sql.Time
 import java.time.LocalDateTime

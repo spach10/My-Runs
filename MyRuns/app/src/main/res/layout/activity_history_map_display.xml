@@ -24,33 +24,6 @@
         tools:context="com.example.i21633.myruns.Start.MapDisplayActivity" />
 
     <TextView
-        android:id="@+id/displayCaloriesBurned"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Calories:"
-        app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/displayClimb" />
-
-    <TextView
-        android:id="@+id/displayClimb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Climb:"
-        app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/displayCurSpeed" />
-
-    <TextView
-        android:id="@+id/displayCurSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Current Speed: "
-        app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/displayAvgSpeed" />
-
-    <TextView
         android:id="@+id/displayAvgSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,25 +46,10 @@
         android:id="@+id/displayTotalDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
         android:padding="5dp"
         android:text="Distance:"
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/displayCaloriesBurned" />
-
-    <Button
-        android:id="@+id/cancelGpsEntryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="@+id/map"
-        app:layout_constraintStart_toStartOf="@+id/map" />
-
-    <Button
-        android:id="@+id/saveGpsEntryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="@+id/map"
-        app:layout_constraintEnd_toEndOf="@+id/map" />
+        app:layout_constraintTop_toTopOf="@+id/map" />
 
 </android.support.constraint.ConstraintLayout>

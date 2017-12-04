@@ -13,8 +13,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.i21633.myruns.App
-import com.example.i21633.myruns.App.Companion.db
 import com.example.i21633.myruns.Database.entity.ExerciseEntry
+import com.example.i21633.myruns.Database.entity.LatLngCoordinate
 import com.example.i21633.myruns.MainActivity
 import com.example.i21633.myruns.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_map_display.*
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
-import java.util.*
 
 
 class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -138,7 +137,7 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 null,
                 inputTypeId,
                 activityTypeId,
-                startTime.month.toString() + "/" + startTime.dayOfMonth + "/" + startTime.year,
+                startTime.dayOfMonth.toString() + " " + startTime.month.toString() + " " + startTime.year,
                 startTime.hour.toString() + ":" + startTime.minute + ":" + startTime.second,
                 getDifference(startTime, LocalDateTime.now()),
                 Math.abs((previousLocation.distanceTo(startLocation) / 1000).toDouble()),
@@ -148,6 +147,18 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 0.toDouble(),
                 "")
         App.db?.exerciseEntryDao()?.addExercise(newExerciseEntry)
+        var exerciseEntryId = App.db?.exerciseEntryDao()?.getAllExerciseEntries()!!.last().id!!.toInt()
+
+        locationCoordinates.forEach {
+            coordinate -> val newLatLngCoordinate = LatLngCoordinate(
+                null,
+                exerciseEntryId,
+                coordinate.latitude,
+                coordinate.longitude
+                )
+            App.db?.latLngCoordinatesDao()?.addLatLng(newLatLngCoordinate)
+        }
+
         var intent = Intent(application, MainActivity::class.java)
         startActivity(intent)
     }

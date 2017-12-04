@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import com.example.i21633.myruns.App
 import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import com.example.i21633.myruns.R
+import com.example.i21633.myruns.Start.MapDisplayActivity
 import kotlinx.android.synthetic.main.fragment_tab2history.*
 
 /**
@@ -38,7 +39,7 @@ class Tab2HistoryFragment : Fragment() {
 
             val listItems = ArrayList<String>()
             exerciseEntries.forEach {
-                entry -> listItems.add(resources.getStringArray(R.array.activityTypeArray)[entry.mActivityType])
+                entry -> listItems.add(entry.mDateTime)
             }
             val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
             history_list_view.adapter = itemsAdapter
@@ -49,7 +50,11 @@ class Tab2HistoryFragment : Fragment() {
     private fun setClickListener() {
         history_list_view.onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                
+                val intent = Intent(activity, HistoryMapDisplayActivity::class.java)
+                var bundle = Bundle()
+                bundle.putInt("exerciseEntryId", pos + 1)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
         }
     }

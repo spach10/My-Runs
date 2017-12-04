@@ -5,19 +5,19 @@ import android.arch.persistence.room.RoomDatabase
 import com.example.i21633.myruns.Database.dao.ActivityTypeDao
 import com.example.i21633.myruns.Database.dao.ExerciseEntryDao
 import com.example.i21633.myruns.Database.dao.InputTypeDao
-import com.example.i21633.myruns.Database.entity.ActivityType
-import com.example.i21633.myruns.Database.entity.ExerciseEntry
-import com.example.i21633.myruns.Database.entity.InputType
+import com.example.i21633.myruns.Database.dao.LatLngCoordinatesDao
+import com.example.i21633.myruns.Database.entity.*
 
 /**
  * Created by i21633 on 10/18/17.
  */
 
-@Database(entities = arrayOf(ExerciseEntry::class, InputType::class, ActivityType::class), version = 1, exportSchema = false)
+@Database(entities = [(ExerciseEntry::class), (InputType::class), (ActivityType::class), (LatLngCoordinate::class)], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun exerciseEntryDao() : ExerciseEntryDao
     abstract fun activityTypeDao() : ActivityTypeDao
     abstract fun inputTypeDao() : InputTypeDao
+    abstract fun latLngCoordinatesDao() : LatLngCoordinatesDao
 
 }
