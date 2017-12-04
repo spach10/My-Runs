@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.fragment_tab1start.*
 class Tab1StartFragment : Fragment() {
 
     private lateinit var _inputType : String
-    private var _activityType : Int = -1
+    private var _activityTypeId : Int = -1
+    private var _inputTypeId : Int = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
@@ -34,6 +35,7 @@ class Tab1StartFragment : Fragment() {
         inputTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 _inputType = parent!!.getItemAtPosition(pos).toString()
+                _inputTypeId = pos
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -43,7 +45,7 @@ class Tab1StartFragment : Fragment() {
 
         activityTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                _activityType = pos
+                _activityTypeId = pos
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -67,7 +69,8 @@ class Tab1StartFragment : Fragment() {
     private fun openMapDisplayActivity() {
         val intent = Intent(activity, MapDisplayActivity::class.java)
         var bundle = Bundle()
-        bundle.putInt("ActivityType", _activityType)
+        bundle.putInt("ActivityTypeId", _activityTypeId)
+        bundle.putInt("InputTypeId", _inputTypeId)
         intent.putExtras(bundle)
         startActivity(intent)
     }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -14,7 +13,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.i21633.myruns.App
-import com.example.i21633.myruns.Database.AppDatabase
+import com.example.i21633.myruns.App.Companion.db
 import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import com.example.i21633.myruns.MainActivity
 import com.example.i21633.myruns.R
@@ -29,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_map_display.*
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
+import java.util.*
 
 
 class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -47,6 +47,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var previousLocation : Location
     private var locationCoordinates : ArrayList<LatLng> = ArrayList()
     private var isRunStarted : Boolean = false
+    private var activityTypeId = -1
+    private var inputTypeId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +77,14 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Set up the location manager and location updates
         val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0.toFloat(), locationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0.toFloat(), locationListener)
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.toFloat()))
 
         val bundle = intent.extras
-        val activityTypeInt = bundle.getInt("ActivityType")
-        activityType.text = App.db?.activityTypeDao()?.getActivityType(activityTypeInt)
+        inputTypeId = bundle.getInt("InputTypeId")
+        activityTypeId = bundle.getInt("ActivityTypeId")
+        activityType.text = getActivityTypeFromPos(activityTypeId)
     }
 
     private val locationListener: LocationListener = object : LocationListener {
@@ -95,10 +98,10 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 isRunStarted = true
             } else {
                 // Calculate the Avg Speed and display
-                displayAvgSpeed.text = calculateAverageSpeed(location)
+                displayAvgSpeed.text = "Avg Speed: " + calculateAverageSpeed(location) + " km/h"
 
                 // Calculate Current Speed and display
-                displayCurSpeed.text = calculateCurrentSpeed(location)
+                displayCurSpeed.text = "Current Speed: " + calculateCurrentSpeed(location) + " km/h"
 
                 // Calculate the Climb and display
                 displayClimb.text = calculateClimb(location)
@@ -131,10 +134,18 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun saveExerciseEntry(v: View?) {
-        var array = resources.getStringArray(R.array.activityTypeArray)
-//        val exerciseEntry = ExerciseEntry()
-//        App.db?.exerciseEntryDao()?.addExercise()
-
+        val newExerciseEntry = ExerciseEntry(
+                null,
+                inputTypeId,
+                activityTypeId,
+                getDifference(startTime, LocalDateTime.now()),
+                Math.abs((previousLocation.distanceTo(startLocation) / 1000).toDouble()),
+                0.toDouble(),
+                calculateAverageSpeed(previousLocation),
+                0,
+                0.toDouble(),
+                "")
+        App.db?.exerciseEntryDao()?.addExercise(newExerciseEntry)
         var intent = Intent(application, MainActivity::class.java)
         startActivity(intent)
     }
@@ -197,23 +208,23 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         return hourDif.toDouble() + (minDif.toDouble() / 60.toDouble()) + (secDif.toDouble() / 3600.toDouble())
     }
 
-    private fun calculateAverageSpeed(location : Location?) : String {
+    private fun calculateAverageSpeed(location : Location?) : Double {
         val timeDifInHours = getDifference(startTime, LocalDateTime.now())
         val locationDif = location!!.distanceTo(startLocation) / 1000
         val avgSpeed  = locationDif / timeDifInHours
         if (avgSpeed != Double.NaN && avgSpeed != Double.POSITIVE_INFINITY && avgSpeed != Double.NEGATIVE_INFINITY)
-            return "Avg Speed: " + BigDecimal(avgSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/h"
-        return "Avg Speed: 0.00 km/h"
+            return BigDecimal(avgSpeed).setScale(2, RoundingMode.DOWN).toDouble()
+        return 0.toDouble()
     }
 
-    private fun calculateCurrentSpeed (location : Location?) : String {
+    private fun calculateCurrentSpeed (location : Location?) : Double {
         val timeDifInHours = getDifference(previousTime, LocalDateTime.now())
         val locationDif = location!!.distanceTo(previousLocation) / 1000
         val currentSpeed  = locationDif / timeDifInHours
 
         if (currentSpeed != Double.NaN && currentSpeed != Double.POSITIVE_INFINITY && currentSpeed != Double.NEGATIVE_INFINITY)
-            return "Current Speed: " + BigDecimal(currentSpeed).setScale(2, RoundingMode.DOWN).toString() + " km/h"
-        return "Current Speed: 0.00 km/h"
+            return BigDecimal(currentSpeed).setScale(2, RoundingMode.DOWN).toDouble()
+        return 0.toDouble()
     }
 
     private fun calculateClimb(location: Location?): String {
@@ -229,6 +240,11 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun calculateTotalDistance(location : Location?) : String {
         val distance = Math.abs((location!!.distanceTo(startLocation) / 1000).toDouble())
         return "Distance: " + BigDecimal(distance).setScale(2, RoundingMode.DOWN) + " km"
+    }
+
+    private fun getActivityTypeFromPos(activityTypeInt: Int) : String {
+        val activityTypes : Array<String> = resources.getStringArray(R.array.activityTypeArray)
+        return "Type: " + activityTypes[activityTypeInt]
     }
 
 }

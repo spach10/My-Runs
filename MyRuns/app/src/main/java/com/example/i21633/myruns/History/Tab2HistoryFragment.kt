@@ -1,12 +1,13 @@
 package com.example.i21633.myruns.History
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.i21633.myruns.App
+import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import com.example.i21633.myruns.R
 import kotlinx.android.synthetic.main.fragment_tab2history.*
 
@@ -18,16 +19,26 @@ class Tab2HistoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        createListView()
         return inflater!!.inflate(R.layout.fragment_tab2history, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        createListView()
     }
 
     private fun createListView() {
         val exerciseEntries = App.db?.exerciseEntryDao()?.getAllExerciseEntries()
         if (exerciseEntries!!.count() > 0) {
-//            val listItems = arrayOf()
-//            val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
-//            history_list_view.adapter = itemsAdapter
+            section_label.text = ""
+
+            val listItems = ArrayList<String>()
+            exerciseEntries.forEach {
+                entry -> listItems.add(resources.getStringArray(R.array.activityTypeArray)[entry.mActivityType])
+            }
+            val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
+            history_list_view.adapter = itemsAdapter
         }
     }
 

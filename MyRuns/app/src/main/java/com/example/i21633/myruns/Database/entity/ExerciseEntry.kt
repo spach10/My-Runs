@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import java.sql.Date
 import java.sql.Time
+import java.time.LocalDateTime
 
 import java.util.Calendar
 
@@ -15,17 +16,16 @@ import java.util.Calendar
 @Entity(tableName = "exerciseEntries")
 data class ExerciseEntry(
         @ColumnInfo(name = "id")
-                @PrimaryKey(autoGenerate = true) var id: Long = 0,
+                @PrimaryKey(autoGenerate = true) var id: Int? = null,
         @ColumnInfo(name = "mInput_type") var mInputType: Int,
         @ColumnInfo(name = "mActivity_type") var mActivityType: Int,
         //@ColumnInfo(name = "mDateTime") var mDateTime: Date,
-        //@ColumnInfo(name="mTime") var mTimeStamp: Time,
-        @ColumnInfo(name = "mDuration") var mDuration: Int,
+        //@ColumnInfo(name="mTime") var mTimeStamp: LocalDateTime,
+        @ColumnInfo(name = "mDuration") var mDuration: Double,
         @ColumnInfo(name = "mDistance") var mDistance: Double,
         @ColumnInfo(name = "mAvg_pace") var mAvgPace: Double,
         @ColumnInfo(name = "mAvg_speed") var mAvgSpeed: Double,
         @ColumnInfo(name = "mCalorie") var mCalorie: Int,
         @ColumnInfo(name = "mClimb") var mClimb: Double,
-        @ColumnInfo(name = "mHeart_rate") var mHeartRate: Int,
         @ColumnInfo(name = "mComment") var mComment: String
 )

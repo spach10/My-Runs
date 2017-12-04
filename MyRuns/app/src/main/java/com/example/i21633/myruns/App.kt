@@ -22,12 +22,5 @@ class App : Application() {
         App.db =  Room.databaseBuilder(this, AppDatabase::class.java, "exerciseEntryDB")
                 .allowMainThreadQueries()
                 .build()
-        val activityTypes : Array<String> = resources.getStringArray(R.array.activityTypeArray)
-
-        activityTypes.forEach {
-            typeName -> App.db?.activityTypeDao()?.addActivityType(ActivityType(null, typeName))
-        }
-
-        var test = App.db?.activityTypeDao()?.getAllActivityTypes()
     }
 }
