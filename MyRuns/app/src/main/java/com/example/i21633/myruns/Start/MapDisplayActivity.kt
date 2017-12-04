@@ -138,6 +138,8 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 null,
                 inputTypeId,
                 activityTypeId,
+                startTime.month.toString() + "/" + startTime.dayOfMonth + "/" + startTime.year,
+                startTime.hour.toString() + ":" + startTime.minute + ":" + startTime.second,
                 getDifference(startTime, LocalDateTime.now()),
                 Math.abs((previousLocation.distanceTo(startLocation) / 1000).toDouble()),
                 0.toDouble(),

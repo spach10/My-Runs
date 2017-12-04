@@ -1,10 +1,12 @@
 package com.example.i21633.myruns.History
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.i21633.myruns.App
 import com.example.i21633.myruns.Database.entity.ExerciseEntry
@@ -26,6 +28,7 @@ class Tab2HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         createListView()
+        setClickListener()
     }
 
     private fun createListView() {
@@ -39,8 +42,16 @@ class Tab2HistoryFragment : Fragment() {
             }
             val itemsAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems)
             history_list_view.adapter = itemsAdapter
+
         }
     }
 
+    private fun setClickListener() {
+        history_list_view.onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                
+            }
+        }
+    }
 
 }
