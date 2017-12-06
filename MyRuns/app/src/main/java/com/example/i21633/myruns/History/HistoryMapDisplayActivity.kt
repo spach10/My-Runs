@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import com.example.i21633.myruns.App
+import com.example.i21633.myruns.Database.entity.ExerciseEntry
 import com.example.i21633.myruns.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.android.synthetic.main.activity_map_display.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.ArrayList
 
 class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -46,6 +49,12 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val bundle = intent.extras
         val exerciseEntryId = bundle.getInt("exerciseEntryId")
+
+        val exerciseEntry = App.db?.exerciseEntryDao()?.getExerciseEntryById(exerciseEntryId) as ExerciseEntry
+        displayAvgSpeed.text = "Avg Speed: " + exerciseEntry.mAvgSpeed.toString()
+        displayTotalDistance.text = "Distance: " + BigDecimal(exerciseEntry.mDistance).setScale(2, RoundingMode.DOWN) + "km"
+        activityType.text = getActivityTypeFromPos(exerciseEntry.mActivityType)
+
 
         val coordinates = App.db?.latLngCoordinatesDao()?.getAllLatLngPointsByExerciseEntry(exerciseEntryId)
         coordinates!!.forEach {
@@ -83,6 +92,11 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.addPolyline(options)
+    }
+
+    private fun getActivityTypeFromPos(activityTypeInt: Int) : String {
+        val activityTypes : Array<String> = resources.getStringArray(R.array.activityTypeArray)
+        return "Type: " + activityTypes[activityTypeInt]
     }
 
 }

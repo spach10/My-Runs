@@ -15,6 +15,9 @@ interface ExerciseEntryDao {
     @Query("select * from exerciseEntries")
     fun getAllExerciseEntries(): List<ExerciseEntry>
 
+    @Query("select * from exerciseEntries where id = :exerciseEntryId")
+    fun getExerciseEntryById(exerciseEntryId: Int) : ExerciseEntry
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addExercise(exerciseEntry: ExerciseEntry)
 
