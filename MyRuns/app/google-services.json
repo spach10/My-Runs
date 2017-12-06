@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "616382216519",
+    "firebase_url": "https://myrunsfirebase.firebaseio.com",
+    "project_id": "myrunsfirebase",
+    "storage_bucket": "myrunsfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616382216519:android:ff4a2d3595aaae8d",
+        "android_client_info": {
+          "package_name": "com.example.i21633.myruns"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616382216519-mqd2mndu16547brgb169trh5p87ndbau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ6Ls_OU7eylq2jazxzrbV17YyCuwE75g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
