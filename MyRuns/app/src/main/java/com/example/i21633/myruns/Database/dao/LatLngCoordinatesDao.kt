@@ -11,10 +11,13 @@ import com.example.i21633.myruns.Database.entity.LatLngCoordinate
 @Dao
 interface LatLngCoordinatesDao {
 
-    @Query("select * from latLngCoordinates where id = :id")
-    fun getAllLatLngPoints(id : Int): List<LatLngCoordinate>
+    @Query("select * from latLngCoordinates")
+    fun getAllLatLngPoints(): List<LatLngCoordinate>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("select * from latLngCoordinates where exerciseEntryId = :exerciseEntryId")
+    fun getAllLatLngPointsByExerciseEntry(exerciseEntryId : Int): List<LatLngCoordinate>
+
+    @Insert
     fun addLatLng(latLngCoordinate: LatLngCoordinate)
 
     @Query("delete from latLngCoordinates where id = :id")

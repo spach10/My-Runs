@@ -47,9 +47,7 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         val bundle = intent.extras
         val exerciseEntryId = bundle.getInt("exerciseEntryId")
 
-        val exerciseEntries = App.db?.exerciseEntryDao()?.getAllExerciseEntries()
-
-        val coordinates = App.db?.latLngCoordinatesDao()?.getAllLatLngPoints(exerciseEntryId)
+        val coordinates = App.db?.latLngCoordinatesDao()?.getAllLatLngPointsByExerciseEntry(exerciseEntryId)
         coordinates!!.forEach {
             coordinate -> locationPoints.add(LatLng(coordinate.lat, coordinate.lng))
         }
