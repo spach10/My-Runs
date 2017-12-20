@@ -24,16 +24,17 @@
         tools:context="com.example.i21633.myruns.Start.MapDisplayActivity" />
 
     <TextView
-        android:id="@+id/displayAvgSpeed"
+        android:id="@+id/historyAvgSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:padding="5dp"
         android:text="Avg Speed: "
         app:layout_constraintStart_toStartOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/activityType" />
+        app:layout_constraintTop_toTopOf="@+id/map" />
 
     <TextView
-        android:id="@+id/activityType"
+        android:id="@+id/historyActivityType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -43,10 +44,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/displayTotalDistance"
+        android:id="@+id/totalClimb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
+        android:padding="5dp"
+        android:text="Climb:"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="@+id/map" />
+
+    <TextView
+        android:id="@+id/totalCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:padding="5dp"
+        android:text="Calories:"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="@+id/map" />
+
+    <TextView
+        android:id="@+id/historyTotalDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="118dp"
         android:padding="5dp"
         android:text="Distance:"
         app:layout_constraintStart_toStartOf="@+id/map"

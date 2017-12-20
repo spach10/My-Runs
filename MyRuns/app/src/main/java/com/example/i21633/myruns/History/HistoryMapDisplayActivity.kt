@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
 import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +16,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import kotlinx.android.synthetic.main.activity_history_map_display.*
 import kotlinx.android.synthetic.main.activity_map_display.*
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -51,9 +52,9 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         val exerciseEntryId = bundle.getInt("exerciseEntryId")
 
         val exerciseEntry = App.db?.exerciseEntryDao()?.getExerciseEntryById(exerciseEntryId) as ExerciseEntry
-        displayAvgSpeed.text = "Avg Speed: " + exerciseEntry.mAvgSpeed.toString()
-        displayTotalDistance.text = "Distance: " + BigDecimal(exerciseEntry.mDistance).setScale(2, RoundingMode.DOWN) + "km"
-        activityType.text = getActivityTypeFromPos(exerciseEntry.mActivityType)
+        historyAvgSpeed.text = "Avg Speed: " + exerciseEntry.mAvgSpeed.toString() + " km/h"
+        historyTotalDistance.text = "Distance: " + BigDecimal(exerciseEntry.mDistance).setScale(2, RoundingMode.DOWN) + "km"
+        historyActivityType.text = getActivityTypeFromPos(exerciseEntry.mActivityType)
 
 
         val coordinates = App.db?.latLngCoordinatesDao()?.getAllLatLngPointsByExerciseEntry(exerciseEntryId)
@@ -73,7 +74,7 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun drawPrimaryLinePath(listLocationChangeToDraw : ArrayList<LatLng>) {
-        if ( map == null )
+        if ( mMap == null )
             return
 
         if ( listLocationChangeToDraw.size < 2 )
@@ -92,6 +93,9 @@ class HistoryMapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.addPolyline(options)
+
+        mMap.addMarker(MarkerOptions().position(LatLng(listLocationChangeToDraw.first()!!.latitude, listLocationChangeToDraw.first()!!.longitude)))
+        mMap.addMarker(MarkerOptions().position(LatLng(listLocationChangeToDraw.last()!!.latitude, listLocationChangeToDraw.last()!!.longitude)))
     }
 
     private fun getActivityTypeFromPos(activityTypeInt: Int) : String {
