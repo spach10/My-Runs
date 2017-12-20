@@ -146,6 +146,11 @@ class MapDisplayActivity : AppCompatActivity(), OnMapReadyCallback {
                 0,
                 0.toDouble(),
                 "")
+
+//        var mapper = ObjectMapper()
+//        val json = mapper.writeValueAsString(newExerciseEntry)
+//        DBCalls().postRequest("insert-exercise-entry/", json)
+
         App.db?.exerciseEntryDao()?.addExercise(newExerciseEntry)
         var exerciseEntryId = App.db?.exerciseEntryDao()?.getAllExerciseEntries()!!.last().id!!.toInt()
 
